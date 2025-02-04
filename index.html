@@ -1,36 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trigger Flow Button</title>
-</head>
-<body>
-    <div>
-        <button id="triggerFlowButton">Trigger Flow</button>
-    </div>
+<div>
+    <button id="triggerFlowButton">Trigger Flow</button>
+</div>
 
-    <script type="text/javascript">
-        // Replace with your actual HTTP trigger URL from Power Automate
-        var flowUrl = "https://prod-114.westeurope.logic.azure.com:443/workflows/d4509112186d4105975e822e8f7c1e12/triggers/manual/paths/invoke?api-version=2016-06-01";
+<script type="text/javascript">
+    var flowUrl = "https://prod-114.westeurope.logic.azure.com:443/workflows/your_flow_id/triggers/manual/paths/invoke?api-version=2016-06-01";
 
-        document.getElementById("triggerFlowButton").onclick = function() {
-            // Make the HTTP request to Power Automate using POST
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", flowUrl, true);  // Use POST method to trigger the flow
-            xhr.setRequestHeader("Content-Type", "application/json");
+    // Define the value for 'name'
+    var nameValue = "lia Costa";  // You can change this dynamically
 
-            // Sending an empty body as no parameters are required
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    alert("Flow triggered successfully!");
-                } else if (xhr.readyState == 4) {
-                    alert("Error triggering flow: " + xhr.statusText);
-                }
-            };
+    // The JSON body to send with the request
+    var requestBody = JSON.stringify({
+        name: nameValue
+    });
 
-            xhr.send();  // Send an empty request body since no parameters are needed
+    document.getElementById("triggerFlowButton").onclick = function() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", flowUrl, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        // Send the JSON body with the 'name' parameter
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                alert("Flow triggered successfully!");
+            } else if (xhr.readyState == 4) {
+                alert("Error triggering flow: " + xhr.statusText);
+            }
         };
-    </script>
-</body>
-</html>
+
+        // Send the request with the 'name' parameter in the body
+        xhr.send(requestBody);  // Send the request with the JSON body
+    };
+</script>
